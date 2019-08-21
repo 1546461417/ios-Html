@@ -7,33 +7,39 @@
 //
 
 #import "ViewController.h"
-#import "PasteboardTextView.h"
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource,PasteboardTextViewDelegateall>
-@property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,copy)NSString *content;
-@property (nonatomic,strong)PasteboardTextView *pastView;
-@end
 
+@interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)NSMutableArray *dataArray;
+@property (nonatomic,strong)NSMutableArray *nameArray;
+@end
 @implementation ViewController
-static NSString *Shun = @"shuyanFine";
--(PasteboardTextView *)pastView{
-    if (_pastView == nil) {
-        _pastView = [[PasteboardTextView alloc]init];
-        _pastView.delegates = self;
+static NSString *ID = @"cell";
+
+-(NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray arrayWithObjects:@"第一种解法",@"表情键盘1",  nil];
     }
-    return _pastView;
+    return _dataArray;
 }
+
+-(NSMutableArray *)nameArray{
+    if (!_nameArray) {
+        _nameArray = [NSMutableArray arrayWithObjects:@"WTFirstPageVC",@"wtceshisViewController", nil];
+    }
+    return _nameArray;
+}
+
+
 -(UITableView *)tableView{
-    if (!_tableView) {
-       _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, SYS_NavigationBar_HEIGHT, Screen_Width, 100) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = UITableViewAutomaticDimension;
-       _tableView.estimatedRowHeight = 100;
-        _tableView.showsVerticalScrollIndicator = NO;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:Shun];
-       _tableView.estimatedSectionHeaderHeight = 0;
-       _tableView.estimatedSectionFooterHeight = 0;
+        _tableView.estimatedRowHeight = 100;
+        _tableView.estimatedSectionHeaderHeight = 0;
+        _tableView.estimatedSectionFooterHeight = 0;
         if (@available(iOS 11.0, *))
         {
             _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -43,110 +49,53 @@ static NSString *Shun = @"shuyanFine";
         {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
+        
     }
+    
     return _tableView;
 }
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSString *path = [[NSBundle mainBundle]pathForResource:@"list.plist" ofType:nil];
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    self.content = dict[@"content"];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ID];
     
 }
 
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     
+    [self test];
 }
 
+
+- (void)test{
+    
+    
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return 1;
-    
+    return self.dataArray.count;
 }
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ddd"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ddd"];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.numberOfLines = 0;
-    NSString *str;
-    if (Screen_Width < 322) {
-        str = @"<head><style>img{width:218pt !important;height:auto}</style></head>";
-    }else{
-        if (Screen_Width > 376) {
-            str = @"<head><style>img{width:280pt !important;height:auto}</style></head>";
-        }else{
-            str = @"<head><style>img{width:258pt !important;height:auto}</style></head>";
-        }
-    }
-    if (self.content != nil) {
-        cell.textLabel.attributedText = [self attributedStringWithHTMLString:[str stringByAppendingString:self.content]];
-        cell.textLabel.hidden = YES;
-    }
-    [cell.contentView addSubview:self.pastView];
-    self.pastView.tintColor = [UIColor orangeColor];
-    [self.pastView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.equalTo(cell.contentView).offset(10);
-        make.top.equalTo(cell.contentView);
-        make.bottom.equalTo(cell.contentView);
-        make.right.equalTo(cell.contentView).offset(- 10);
-    }];
     
-    if (self.content != nil) {
-        self.pastView.attributedText = [self attributedStringWithHTMLString:[str stringByAppendingString:self.content]];
-    }
-
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID forIndexPath:indexPath];
+    cell.textLabel.text = self.dataArray[indexPath.row];
     return cell;
-}
-
-
-//html 转化为普通文本
-- (NSAttributedString *)attributedStringWithHTMLString:(NSString *)htmlString
-{
-    //    //转换参数
-    //    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute :@(NSUTF8StringEncoding) };
-    //将html文本转换为正常格式的文本
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-    //以下三个设置其实不是必要的，只是为了让解析出来的html文本更好看。
-    //设置段落格式
-    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
-    //设置两端对齐
-    para.alignment = NSTextAlignmentJustified;
-    para.lineSpacing = 10;
-    //para.paragraphSpacing = 10;
-    [attStr addAttribute:NSParagraphStyleAttributeName value:para range:NSMakeRange(0, attStr.length)];
-    //    //颜色
-    //    [attStr addAttribute:NSForegroundColorAttributeName
-    //                   value:UIColorFromRGB(0x3d3d3d)
-    //                   range:NSMakeRange(0, attStr.length)];
-    //字体
-    [attStr addAttribute:NSFontAttributeName
-                   value:[UIFont systemFontOfSize:15]
-                   range:NSMakeRange(0, attStr.length)];
-    
-    return attStr;
-}
-
-
--(void)getContentSelected:(NSString *)content selectedIndex:(int)selectIndex{
-    
-    NSLog(@"%@   %d",content ,selectIndex);
-    
     
 }
 
-
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self.navigationController pushViewController:[[NSClassFromString(self.nameArray[indexPath.row]) alloc ]init] animated:YES];
+}
 
 @end

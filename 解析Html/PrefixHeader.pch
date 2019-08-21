@@ -13,5 +13,13 @@
 #define rmStatusBarH ([UIApplication sharedApplication].statusBarFrame.size.height)//(44/20)
 //判断iPhoneX页面的状态栏不能隐藏
 #define IS_iPhoneX ((rmStatusBarH == 44.0) ? YES : NO)
+// 系统性参数
+#define SYS_StatusBar_HEIGHT ((!IS_iPhoneX) ? 20 : SYS_SafeArea_TOP)
+#define SYS_NavigationBar_HEIGHT (SYS_StatusBar_HEIGHT+44)
+#define SYS_Toolbar_HEIGHT 44
+#define SYS_TabBar_HEIGHT ((!IS_iPhoneX) ? 49 : (49+SYS_SafeArea_BOTTOM))
+#define SYS_Spacing_HEIGHT 8
+#define SYS_SafeArea_TOP ((IS_iPhoneX) ? 44 : 0)
+#define SYS_SafeArea_BOTTOM ((IS_iPhoneX) ? 34 : 0)
 #import "Masonry.h"
 #endif /* PrefixHeader_pch */
