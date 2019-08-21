@@ -1,0 +1,17 @@
+//
+//  PrefixHeader.pch
+//  解析Html
+//
+//  Created by admin10 on 2019/8/21.
+//  Copyright © 2019年 sgg. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#define Screen_Width [UIScreen mainScreen].bounds.size.width
+#define Screen_Height [UIScreen mainScreen].bounds.size.height
+#define rmStatusBarH ([UIApplication sharedApplication].statusBarFrame.size.height)//(44/20)
+//判断iPhoneX页面的状态栏不能隐藏
+#define IS_iPhoneX ((rmStatusBarH == 44.0) ? YES : NO)
+#import "Masonry.h"
+#endif /* PrefixHeader_pch */
