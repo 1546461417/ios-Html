@@ -22,4 +22,5 @@
 #define SYS_SafeArea_TOP ((IS_iPhoneX) ? 44 : 0)
 #define SYS_SafeArea_BOTTOM ((IS_iPhoneX) ? 34 : 0)
 #import "Masonry.h"
+#import "WTTextAttachment.h"
 #endif /* PrefixHeader_pch */

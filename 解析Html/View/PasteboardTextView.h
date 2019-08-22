@@ -13,11 +13,14 @@
 
 - (void)getContentSelected:(NSString *)content selectedIndex:(int)selectIndex;
 
+- (void)getContentSelected:(NSTextAttachment *)attach;
+
 @end
 
 @interface PasteboardTextView : UITextView
 @property (nonatomic,weak)id <PasteboardTextViewDelegateall> delegates;
 @property (nonatomic,copy)NSString *showContent;
+- (void)textViewImageLocation;
 @end
 
 

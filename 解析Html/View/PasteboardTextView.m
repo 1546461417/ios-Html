@@ -12,6 +12,7 @@
 @property (nonatomic,strong)UIMenuItem *menuItem2;
 @property (nonatomic,strong)UIMenuController *menu;
 @property (nonatomic, strong) UIPasteboard *pasteboard;
+@property (nonatomic,strong)NSMutableDictionary *dict;
 @end
 @implementation PasteboardTextView
 
@@ -21,21 +22,43 @@
     if (self) {
         self.font = [UIFont systemFontOfSize:15.f];
         self.editable = NO;
-       // self.textColor = [UIColor grayColor];
-        //self.text = @"这里是UITextView中需要选中复制的文字";
-        //self.textAlignment = NSTextAlignmentCenter;
-//        self.textContainerInset = UIEdgeInsetsZero;
-//        self.textContainer.lineFragmentPadding = 0;
-        //self.backgroundColor = [UIColor yellowColor];
         self.scrollEnabled = NO;
         self.menuItem = [[UIMenuItem alloc] initWithTitle:@"分享图文" action:@selector(shareSina:)];
         //self.menuItem2 = [[UIMenuItem alloc] initWithTitle:@"分享文字" action:@selector(shareSinas:)];
-       self.menu = [UIMenuController sharedMenuController];
+        self.menu = [UIMenuController sharedMenuController];
         [self.menu setMenuItems:[NSArray arrayWithObjects:self.menuItem,self.menuItem2,nil]];
         self.pasteboard = [UIPasteboard generalPasteboard];
     }
     return self;
 }
+
+-(NSMutableDictionary *)dict{
+    if (!_dict) {
+        _dict = [NSMutableDictionary dictionary];
+    }
+    return _dict;
+}
+
+
+
+//获取图片的位置
+- (void)textViewImageLocation{
+    [self.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.attributedText.string.length)
+                                    options:0
+                                 usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
+                                     
+                                     if (value) {
+                                         NSLog(@"%@    %@",value , NSStringFromRange(range));
+                                         [self.dict setValue:value forKey:NSStringFromRange(range)];
+                                         
+                                     }
+                                 }];
+    
+  
+}
+
+
+
 //选中的文本在图片周围
 - (void)lastSet:(NSArray *)array contnt:(NSString *)str{
     NSRange range = [self selectedRange];
@@ -62,8 +85,87 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
-    [self setBackgroundHighlighted:YES];
+
+    
+    // 获取当前触摸位置的字符所属的字母(提示：触摸位置需向下调整10个点，以便与文本元素对齐)
+    UITouch *touch = [touches anyObject];
+    CGPoint touchPoint = [touch locationInView:self];
+    touchPoint.y -= 10;
+    
+    // 获取点击的字母的位置
+    NSInteger characterIndex = [self.layoutManager characterIndexForPoint:touchPoint inTextContainer:self.textContainer fractionOfDistanceBetweenInsertionPoints:NULL];
+    
+    // 获取单词的范围。range 由起始位置和长度构成。
+    NSRange range = [self getWordRange:characterIndex];
+    
+    NSLog(@"---%@",NSStringFromRange(range));
+    
+    NSTextAttachment *value    =     [self.dict valueForKey:NSStringFromRange(range)];
+    if (value) {
+        if ([self.delegates respondsToSelector:@selector(getContentSelected:)]) {
+            [self.delegates getContentSelected:value];
+        }
+    }
+    //[self setBackgroundHighlighted:YES];
 }
+
+
+//获取单词的范围
+- (NSRange)getWordRange:(NSInteger)characterIndex {
+    NSInteger left = characterIndex - 1;
+    NSInteger right = characterIndex + 1;
+    NSInteger length = 0;
+    NSString *string = self.attributedText.string;
+    
+    // 往左遍历直到空格
+    while (left >=0) {
+        NSString *s=[string substringWithRange:NSMakeRange(left, 1)];
+        
+        if ([self isLetter:s]) {
+            left --;
+        } else {
+            break;
+        }
+    }
+    
+    // 往右遍历直到空格
+    while (right < self.text.length) {
+        NSString *s=[string substringWithRange:NSMakeRange(right, 1)];
+        
+        if ([self isLetter:s]) {
+            right ++;
+        } else {
+            break;
+        }
+    }
+    
+    // 此时 left 和 right 都指向空格
+    left ++;
+    right --;
+    NSLog(@"letf = %ld, right = %ld",left,right);
+    
+    length = right - left + 1;
+    NSRange range = NSMakeRange(left, length);
+    
+    return range;
+}
+
+
+
+
+//判断是否字母
+- (BOOL)isLetter:(NSString *)str {
+    char letter = [str characterAtIndex:0];
+    
+    if ((letter >= 'a' && letter <='z') || (letter >= 'A' && letter <= 'Z')) {
+        return YES;
+    }
+    return NO;
+}
+
+
+
+
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event{
     [super touchesMoved:touches withEvent:event];
@@ -89,6 +191,7 @@
         
     }];
 }
+
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
     NSRange range = [self selectedRange];

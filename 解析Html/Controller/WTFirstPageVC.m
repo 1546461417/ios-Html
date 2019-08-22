@@ -12,6 +12,7 @@
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,copy)NSString *content;
 @property (nonatomic,strong)PasteboardTextView *pastView;
+@property (nonatomic,strong)UILabel *label;
 @end
 
 @implementation WTFirstPageVC
@@ -23,9 +24,19 @@ static NSString *Shun = @"shuyanFine";
     }
     return _pastView;
 }
+
+-(UILabel *)label{
+    if (!_label) {
+        _label = [[UILabel alloc]initWithFrame:CGRectMake(100, Screen_Height - SYS_SafeArea_BOTTOM - SYS_NavigationBar_HEIGHT, 100, 100)];
+    }
+    return _label;
+}
+
+
+
 -(UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, SYS_NavigationBar_HEIGHT, Screen_Width, Screen_Height - SYS_SafeArea_BOTTOM - SYS_NavigationBar_HEIGHT) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, SYS_NavigationBar_HEIGHT, Screen_Width, Screen_Height - SYS_SafeArea_BOTTOM - SYS_NavigationBar_HEIGHT ) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = UITableViewAutomaticDimension;
@@ -53,6 +64,7 @@ static NSString *Shun = @"shuyanFine";
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
     self.content = dict[@"content"];
     [self.view addSubview:self.tableView];
+    
     
 }
 
@@ -103,6 +115,7 @@ static NSString *Shun = @"shuyanFine";
     
     if (self.content != nil) {
         self.pastView.attributedText = [self attributedStringWithHTMLString:[str stringByAppendingString:self.content]];
+        [self.pastView textViewImageLocation];
     }
     
     return cell;
@@ -132,7 +145,7 @@ static NSString *Shun = @"shuyanFine";
     [attStr addAttribute:NSFontAttributeName
                    value:[UIFont systemFontOfSize:15]
                    range:NSMakeRange(0, attStr.length)];
-    
+   
     return attStr;
 }
 
@@ -142,12 +155,64 @@ static NSString *Shun = @"shuyanFine";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
 }
+//获得选中的字符串
 -(void)getContentSelected:(NSString *)content selectedIndex:(int)selectIndex{
     
     NSLog(@"%@   %d",content ,selectIndex);
+  
+}
+
+
+-(void)getContentSelected:(NSTextAttachment *)attach{
     
+    [self.view addSubview:self.label];
+    
+    NSMutableAttributedString *textAttrStr = [[NSMutableAttributedString alloc] init];
+   // attach.image = [UIImage imageNamed:@"bankcard_icon"];
+    attach.bounds = CGRectMake(0, 0 , 100, 100);
+    NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:attach];
+    [textAttrStr appendAttributedString:imgStr];
+    self.label.attributedText = textAttrStr;
+
+}
+
+
+
+
+
+
+- (void)test{
+    NSMutableString *plainString = [NSMutableString stringWithString:self.pastView.attributedText.string];
+    __block NSUInteger base = 0;
+    
+    /*
+     一些方法的搜索方向
+     - NSAttributedStringEnumerationReverse: 逆向搜索
+     - NSAttributedStringEnumerationLongestEffectiveRangeNotRequired: 顺向搜索
+     */
+   
+     
+    
+    
+    [self.pastView.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.pastView.attributedText.string.length)
+                                         options:0
+                                      usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
+                                          
+                                          
+                                          
+                                          
+                                         
+                    
+                                          if (value) {
+//                                              [plainString replaceCharactersInRange:NSMakeRange(range.location + base, range.length)
+//                                                                         withString:content];
+//                                              base += content.length - 1;
+                                              value.image = [UIImage imageNamed:@"qw"];
+                                          }
+                                      }];
     
 }
+
 
 
 @end

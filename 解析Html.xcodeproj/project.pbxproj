@@ -27,6 +27,7 @@
 		343D2B54230D2E4800A0F38F /* PasteboardTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 343D2B53230D2E4800A0F38F /* PasteboardTextView.m */; };
 		343D2B58230D30C300A0F38F /* list.plist in Resources */ = {isa = PBXBuildFile; fileRef = 343D2B57230D30C300A0F38F /* list.plist */; };
 		343D2B5B230D398F00A0F38F /* WTFirstPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */; };
+		347C1BA5230E41CA00A55D29 /* WTTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 347C1BA3230E41C900A55D29 /* WTTextAttachment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,8 @@
 		343D2B57230D30C300A0F38F /* list.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = list.plist; sourceTree = "<group>"; };
 		343D2B59230D398F00A0F38F /* WTFirstPageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTFirstPageVC.h; sourceTree = "<group>"; };
 		343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTFirstPageVC.m; sourceTree = "<group>"; };
+		347C1BA3230E41C900A55D29 /* WTTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTTextAttachment.m; sourceTree = "<group>"; };
+		347C1BA4230E41C900A55D29 /* WTTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTTextAttachment.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,20 +146,15 @@
 		343D2AF8230D287F00A0F38F /* 解析Html */ = {
 			isa = PBXGroup;
 			children = (
-				343D2B57230D30C300A0F38F /* list.plist */,
+				343D2B5D230D3C0800A0F38F /* Other */,
+				343D2B5C230D3BF100A0F38F /* Controller */,
 				343D2B2C230D2CAC00A0F38F /* Lib */,
 				343D2B56230D2EA700A0F38F /* View */,
-				343D2AF9230D287F00A0F38F /* AppDelegate.h */,
-				343D2AFA230D287F00A0F38F /* AppDelegate.m */,
-				343D2AFC230D288000A0F38F /* ViewController.h */,
-				343D2AFD230D288000A0F38F /* ViewController.m */,
 				343D2B02230D289A00A0F38F /* Assets.xcassets */,
 				343D2B04230D289A00A0F38F /* LaunchScreen.storyboard */,
 				343D2B07230D289A00A0F38F /* Info.plist */,
 				343D2B08230D289A00A0F38F /* main.m */,
 				343D2B2B230D2ABF00A0F38F /* PrefixHeader.pch */,
-				343D2B59230D398F00A0F38F /* WTFirstPageVC.h */,
-				343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */,
 			);
 			path = "解析Html";
 			sourceTree = "<group>";
@@ -230,10 +228,33 @@
 		343D2B56230D2EA700A0F38F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				347C1BA4230E41C900A55D29 /* WTTextAttachment.h */,
+				347C1BA3230E41C900A55D29 /* WTTextAttachment.m */,
 				343D2B52230D2E4800A0F38F /* PasteboardTextView.h */,
 				343D2B53230D2E4800A0F38F /* PasteboardTextView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		343D2B5C230D3BF100A0F38F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				343D2B59230D398F00A0F38F /* WTFirstPageVC.h */,
+				343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		343D2B5D230D3C0800A0F38F /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				343D2AF9230D287F00A0F38F /* AppDelegate.h */,
+				343D2AFA230D287F00A0F38F /* AppDelegate.m */,
+				343D2AFC230D288000A0F38F /* ViewController.h */,
+				343D2AFD230D288000A0F38F /* ViewController.m */,
+				343D2B57230D30C300A0F38F /* list.plist */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,6 +393,7 @@
 				343D2B4E230D2CBE00A0F38F /* NSArray+MASAdditions.m in Sources */,
 				343D2AFE230D288000A0F38F /* ViewController.m in Sources */,
 				343D2B09230D289A00A0F38F /* main.m in Sources */,
+				347C1BA5230E41CA00A55D29 /* WTTextAttachment.m in Sources */,
 				343D2B5B230D398F00A0F38F /* WTFirstPageVC.m in Sources */,
 				343D2B4B230D2CBE00A0F38F /* MASLayoutConstraint.m in Sources */,
 				343D2AFB230D287F00A0F38F /* AppDelegate.m in Sources */,
