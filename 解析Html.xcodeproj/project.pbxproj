@@ -28,6 +28,7 @@
 		343D2B58230D30C300A0F38F /* list.plist in Resources */ = {isa = PBXBuildFile; fileRef = 343D2B57230D30C300A0F38F /* list.plist */; };
 		343D2B5B230D398F00A0F38F /* WTFirstPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */; };
 		347C1BA5230E41CA00A55D29 /* WTTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 347C1BA3230E41C900A55D29 /* WTTextAttachment.m */; };
+		347C1BAA230E7B1600A55D29 /* WTSecondPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 347C1BA9230E7B1600A55D29 /* WTSecondPageVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,8 @@
 		343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTFirstPageVC.m; sourceTree = "<group>"; };
 		347C1BA3230E41C900A55D29 /* WTTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTTextAttachment.m; sourceTree = "<group>"; };
 		347C1BA4230E41C900A55D29 /* WTTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTTextAttachment.h; sourceTree = "<group>"; };
+		347C1BA8230E7B1600A55D29 /* WTSecondPageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTSecondPageVC.h; sourceTree = "<group>"; };
+		347C1BA9230E7B1600A55D29 /* WTSecondPageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTSecondPageVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +244,8 @@
 			children = (
 				343D2B59230D398F00A0F38F /* WTFirstPageVC.h */,
 				343D2B5A230D398F00A0F38F /* WTFirstPageVC.m */,
+				347C1BA8230E7B1600A55D29 /* WTSecondPageVC.h */,
+				347C1BA9230E7B1600A55D29 /* WTSecondPageVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -390,6 +395,7 @@
 				343D2B4F230D2CBE00A0F38F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				343D2B4D230D2CBE00A0F38F /* MASViewConstraint.m in Sources */,
 				343D2B48230D2CBE00A0F38F /* MASCompositeConstraint.m in Sources */,
+				347C1BAA230E7B1600A55D29 /* WTSecondPageVC.m in Sources */,
 				343D2B4E230D2CBE00A0F38F /* NSArray+MASAdditions.m in Sources */,
 				343D2AFE230D288000A0F38F /* ViewController.m in Sources */,
 				343D2B09230D289A00A0F38F /* main.m in Sources */,

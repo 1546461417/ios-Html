@@ -1,21 +1,21 @@
 //
-//  WTFirstPageVC.m
+//  WTSecondPageVC.m
 //  解析Html
 //
-//  Created by admin10 on 2019/8/21.
+//  Created by admin10 on 2019/8/22.
 //  Copyright © 2019年 sgg. All rights reserved.
 //
 
-#import "WTFirstPageVC.h"
+#import "WTSecondPageVC.h"
 #import "PasteboardTextView.h"
-@interface WTFirstPageVC ()<UITableViewDelegate,UITableViewDataSource,PasteboardTextViewDelegateall>
+@interface WTSecondPageVC ()<UITableViewDelegate,UITableViewDataSource,PasteboardTextViewDelegateall>
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,copy)NSString *content;
 @property (nonatomic,strong)PasteboardTextView *pastView;
 @property (nonatomic,strong)UILabel *label;
 @end
 
-@implementation WTFirstPageVC
+@implementation WTSecondPageVC
 static NSString *Shun = @"shuyanFine";
 -(PasteboardTextView *)pastView{
     if (_pastView == nil) {
@@ -31,9 +31,6 @@ static NSString *Shun = @"shuyanFine";
     }
     return _label;
 }
-
-
-
 -(UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, SYS_NavigationBar_HEIGHT, Screen_Width, Screen_Height - SYS_SafeArea_BOTTOM - SYS_NavigationBar_HEIGHT ) style:UITableViewStyleGrouped];
@@ -60,6 +57,8 @@ static NSString *Shun = @"shuyanFine";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+   
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -69,6 +68,9 @@ static NSString *Shun = @"shuyanFine";
     self.content = dict[@"content"];
     [self.view addSubview:self.tableView];
 }
+
+
+
 
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -93,17 +95,10 @@ static NSString *Shun = @"shuyanFine";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.numberOfLines = 0;
     NSString *str;
-    if (Screen_Width < 322) {
-        str = @"<head><style>img{width:218pt !important;height:auto}</style></head>";
-    }else{
-        if (Screen_Width > 376) {
-            str = @"<head><style>img{width:280pt !important;height:auto}</style></head>";
-        }else{
-            str = @"<head><style>img{width:258pt !important;height:auto}</style></head>";
-        }
-    }
+    
+    
     if (self.content != nil) {
-        cell.textLabel.attributedText = [self attributedStringWithHTMLString:[str stringByAppendingString:self.content]];
+        cell.textLabel.attributedText = [self attributedStringWithHTMLString:self.content];
         cell.textLabel.hidden = YES;
     }
     [cell.contentView addSubview:self.pastView];
@@ -116,8 +111,10 @@ static NSString *Shun = @"shuyanFine";
     }];
     
     if (self.content != nil) {
-        self.pastView.attributedText = [self attributedStringWithHTMLString:[str stringByAppendingString:self.content]];
+        self.pastView.attributedText = [self attributedStringWithHTMLString:self.content];
         [self.pastView textViewImageLocation];
+        //调整图片的大小
+        [self changeImageSize];
     }
     
     return cell;
@@ -127,8 +124,6 @@ static NSString *Shun = @"shuyanFine";
 //html 转化为普通文本
 - (NSAttributedString *)attributedStringWithHTMLString:(NSString *)htmlString
 {
-    //    //转换参数
-    //    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute :@(NSUTF8StringEncoding) };
     //将html文本转换为正常格式的文本
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
     //以下三个设置其实不是必要的，只是为了让解析出来的html文本更好看。
@@ -139,15 +134,17 @@ static NSString *Shun = @"shuyanFine";
     para.lineSpacing = 10;
     //para.paragraphSpacing = 10;
     [attStr addAttribute:NSParagraphStyleAttributeName value:para range:NSMakeRange(0, attStr.length)];
-    //    //颜色
-    //    [attStr addAttribute:NSForegroundColorAttributeName
-    //                   value:UIColorFromRGB(0x3d3d3d)
-    //                   range:NSMakeRange(0, attStr.length)];
     //字体
     [attStr addAttribute:NSFontAttributeName
                    value:[UIFont systemFontOfSize:15]
                    range:NSMakeRange(0, attStr.length)];
-   
+//    //第一张图
+//    NSTextAttachment *attach = [[NSTextAttachment alloc] init];
+//    attach.image = [UIImage imageNamed:@"qw"];
+//    attach.bounds = CGRectMake(0, 0 , Screen_Width - 50, 100);
+//    NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:attach];
+//    [attStr appendAttributedString:imgStr];
+    
     return attStr;
 }
 
@@ -161,58 +158,48 @@ static NSString *Shun = @"shuyanFine";
 -(void)getContentSelected:(NSString *)content selectedIndex:(int)selectIndex{
     
     NSLog(@"%@   %d",content ,selectIndex);
-  
+    
 }
 
 
 -(void)getContentSelected:(NSTextAttachment *)attach{
     [self.view addSubview:self.label];
     NSMutableAttributedString *textAttrStr = [[NSMutableAttributedString alloc] init];
-   // attach.image = [UIImage imageNamed:@"bankcard_icon"];
+    // attach.image = [UIImage imageNamed:@"bankcard_icon"];
     attach.bounds = CGRectMake(0, 0 , 100, 100);
     NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:attach];
     [textAttrStr appendAttributedString:imgStr];
     self.label.attributedText = textAttrStr;
+    
+}
+//调整图片的x大小
+- (void)changeImageSize{
+    [self.pastView.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.pastView.attributedText.string.length)
+                                         options:0
+                                      usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
+
+                                          if (value) {
+                                            
+                                              CGSize originSize = value.bounds.size;
+                                              CGFloat widthI = Screen_Width - 30;
+                                              CGFloat heightI = widthI * originSize.height/originSize.width;
+                                              value.bounds = CGRectMake(0, 0, widthI, heightI);
+                                          }
+                                      }];
 
 }
 
 
 
-
+//-(NSString *)toHtmlString
+//{
+//    NSDictionary * exportParams=@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType};
+//    NSData * htmlData=[self dataFromRange:NSMakeRange(0, self.length) documentAttributes:exportParams error:nil];
 //
 //
-//- (void)test{
-//    NSMutableString *plainString = [NSMutableString stringWithString:self.pastView.attributedText.string];
-//    __block NSUInteger base = 0;
+//    NSString * html=[[NSString alloc]initWithData:htmlData encoding:NSUTF8StringEncoding];
 //
-//    /*
-//     一些方法的搜索方向
-//     - NSAttributedStringEnumerationReverse: 逆向搜索
-//     - NSAttributedStringEnumerationLongestEffectiveRangeNotRequired: 顺向搜索
-//     */
-//
-//
-//
-//
-//    [self.pastView.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.pastView.attributedText.string.length)
-//                                         options:0
-//                                      usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
-//
-//
-//
-//
-//
-//
-//                                          if (value) {
-////                                              [plainString replaceCharactersInRange:NSMakeRange(range.location + base, range.length)
-////                                                                         withString:content];
-////                                              base += content.length - 1;
-//                                              value.image = [UIImage imageNamed:@"qw"];
-//                                          }
-//                                      }];
-//
+//    return html;
 //}
-//
-
 
 @end

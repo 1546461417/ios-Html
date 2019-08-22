@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "WTSecondPageVC.h"
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -18,14 +19,14 @@ static NSString *ID = @"cell";
 
 -(NSMutableArray *)dataArray{
     if (!_dataArray) {
-        _dataArray = [NSMutableArray arrayWithObjects:@"第一种解法",@"表情键盘1",  nil];
+        _dataArray = [NSMutableArray arrayWithObjects:@"第一种解法",@"第二种解法",  nil];
     }
     return _dataArray;
 }
 
 -(NSMutableArray *)nameArray{
     if (!_nameArray) {
-        _nameArray = [NSMutableArray arrayWithObjects:@"WTFirstPageVC",@"wtceshisViewController", nil];
+        _nameArray = [NSMutableArray arrayWithObjects:@"WTFirstPageVC",@"WTSecondPageVC", nil];
     }
     return _nameArray;
 }

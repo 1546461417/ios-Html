@@ -106,7 +106,7 @@
             [self.delegates getContentSelected:value];
         }
     }
-    //[self setBackgroundHighlighted:YES];
+    [self setBackgroundHighlighted:NO];
 }
 
 
