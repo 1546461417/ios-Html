@@ -15,6 +15,8 @@
                                       usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
 
                                           if (value) {
+                                           //获取图片的名字
+                                               NSLog(@"%@",value.fileWrapper.preferredFilename);
                                               CGSize originSize = value.bounds.size;
                                               CGFloat widthI = Screen_Width - 30;
                                               CGFloat heightI = widthI * originSize.height/originSize.width;
@@ -26,7 +28,7 @@
 
 
 
-//获取html中的url
+//获取html中的图片url
 - (NSArray *)filterImage:(NSString *)html
 
 {
