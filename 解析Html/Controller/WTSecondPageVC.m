@@ -179,7 +179,6 @@ static NSString *Shun = @"shuyanFine";
                                       usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
 
                                           if (value) {
-                                            
                                               CGSize originSize = value.bounds.size;
                                               CGFloat widthI = Screen_Width - 30;
                                               CGFloat heightI = widthI * originSize.height/originSize.width;
