@@ -26,5 +26,62 @@
 
 
 
+//获取html中的url
+- (NSArray *)filterImage:(NSString *)html
 
+{
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<(img|IMG)(.*?)(/>|></img>|>)" options:NSRegularExpressionAllowCommentsAndWhitespace error:nil];
+    
+    NSArray *result = [regex matchesInString:html options:NSMatchingReportCompletion range:NSMakeRange(0, html.length)];
+    
+    
+    
+    for (NSTextCheckingResult *item in result) {
+        
+        NSString *imgHtml = [html substringWithRange:[item rangeAtIndex:0]];
+        
+        
+        
+        NSArray *tmpArray = nil;
+        
+        if ([imgHtml rangeOfString:@"src=\""].location != NSNotFound) {
+            
+            tmpArray = [imgHtml componentsSeparatedByString:@"src=\""];
+            
+        } else if ([imgHtml rangeOfString:@"src="].location != NSNotFound) {
+            
+            tmpArray = [imgHtml componentsSeparatedByString:@"src="];
+            
+        }
+        
+        
+        
+        if (tmpArray.count >= 2) {
+            
+            NSString *src = tmpArray[1];
+            
+            
+            
+            NSUInteger loc = [src rangeOfString:@"\""].location;
+            
+            if (loc != NSNotFound) {
+                
+                src = [src substringToIndex:loc];
+                
+                [resultArray addObject:src];
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    return resultArray;
+    
+}
 
