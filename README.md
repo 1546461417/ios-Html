@@ -5,4 +5,4 @@
 
 ![效果图](https://github.com/1546461417/ios-Html/blob/master/效果图.jpg)
 
-![点击解析出路的图片，可以得到对应的图片](https://github.com/1546461417/ios-Html/blob/master/取出链接中的图片.jpg)
+
