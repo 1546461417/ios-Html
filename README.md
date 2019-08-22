@@ -7,9 +7,10 @@
 ![点击解析出路的图片可以得到对应的图片](https://github.com/1546461417/ios-Html/blob/master/取出链接中的图片.jpg)
 
 
+
 //调整图片的大小
-- (void)changeImageSize{
-    [self.pastView.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.pastView.attributedText.string.length)
+
+ [self.pastView.attributedText enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.pastView.attributedText.string.length)
                                          options:0
                                       usingBlock:^(NSTextAttachment *value, NSRange range, BOOL *stop) {
 
@@ -21,7 +22,7 @@
                                           }
                                       }];
 
-}
+
 
 
 
